@@ -1,0 +1,147 @@
+/* --- Variáveis de Cor --- */
+:root {
+  --cor-fundo-escuro: #0a192f;
+  --cor-card-escuro: #112240;
+  --cor-texto-claro: #ccd6f6;
+  --cor-texto-secundario: #a8b2d1;
+  --cor-verde-neon: #64ffda;
+  --cor-verde-neon-hover: rgba(100, 255, 218, 0.1);
+}
+
+/* --- Estilos Globais --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  background-color: var(--cor-fundo-escuro);
+  color: var(--cor-texto-claro);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+h1,
+h2 {
+  color: var(--cor-verde-neon);
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-top: 30px;
+}
+
+/* --- Card Principal (Formulário) --- */
+form {
+  background-color: var(--cor-card-escuro);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid rgba(100, 255, 218, 0.2);
+}
+
+/* --- Estilos dos Inputs --- */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--cor-texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--cor-texto-secundario);
+  border-radius: 4px;
+  background-color: var(--cor-fundo-escuro);
+  color: var(--cor-texto-claro);
+  font-size: 1rem;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--cor-verde-neon);
+  box-shadow: 0 0 5px rgba(100, 255, 218, 0.5);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* --- Estilos dos Botões --- */
+button {
+  background-color: transparent;
+  color: var(--cor-verde-neon);
+  border: 1px solid var(--cor-verde-neon);
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: var(--cor-verde-neon-hover);
+  box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* --- Card de Resultado --- */
+#result {
+  background-color: var(--cor-card-escuro);
+  padding: 25px;
+  border-radius: 8px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+  min-height: 80px;
+  font-size: 1.1rem;
+  color: var(--cor-texto-claro);
+  border: 1px dashed var(--cor-texto-secundario);
+  word-wrap: break-word; /* Garante que o texto quebre */
+}
+
+/* --- Responsividade --- */
+@media (max-width: 650px) {
+  h1 {
+    font-size: 2rem;
+  }
+  form {
+    padding: 20px;
+  }
+  button {
+    /* Faz os botões ocuparem a largura toda e se empilharem */
+    width: 100%;
+    margin-right: 0;
+  }
+}
