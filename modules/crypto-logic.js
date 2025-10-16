@@ -22,7 +22,6 @@ function cifraCesar(str, key, decrypt) {
     .join("");
 }
 
-// 2. Cifra de Vigenère
 function cifraVigenere(str, key, decrypt) {
   if (!key || !/^[a-zA-Z]+$/.test(key)) {
     return "A chave para Vigenère deve ser uma palavra contendo apenas letras.";
@@ -55,7 +54,6 @@ function cifraVigenere(str, key, decrypt) {
     .join("");
 }
 
-// 3. One-Time Pad (OTP)
 function oneTimePad(messageDecimalStr, keyDecimalStr) {
     if (!/^\d+$/.test(messageDecimalStr) || !/^\d+$/.test(keyDecimalStr)) {
         return "A mensagem e a chave para OTP devem ser números decimais.";
@@ -70,7 +68,6 @@ function oneTimePad(messageDecimalStr, keyDecimalStr) {
     }
 }
 
-// 4. Cifra de Hill (A FUNÇÃO QUE FALTAVA)
 function cifraHill(message, key, decrypt) {
     const mod = (n, m) => ((n % m) + m) % m;
 
@@ -132,7 +129,6 @@ function cifraHill(message, key, decrypt) {
     return result;
 }
 
-// Exporta TODAS as funções
 module.exports = {
   cifraCesar,
   cifraVigenere,

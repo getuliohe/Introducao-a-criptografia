@@ -35,7 +35,7 @@ app.post('/process', (req, res) => {
     case "otp":
       result = cryptoLogic.oneTimePad(message, key);
       break;
-    case "hill": // <<< LÓGICA CORRIGIDA AQUI
+    case "hill":
       result = cryptoLogic.cifraHill(message, key, isDecrypt);
       break;
     default:
@@ -50,7 +50,6 @@ app.post('/process', (req, res) => {
   });
 });
 
-// Inicia o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
