@@ -2,7 +2,6 @@
 function cifraCesar(str, key, decrypt) {
   const k = parseInt(key, 10);
   if (isNaN(k)) {
-    // Trocado alert por return
     return "A chave para a Cifra de César deve ser um número.";
   }
 
@@ -27,7 +26,6 @@ function cifraCesar(str, key, decrypt) {
 // 2. Cifra de Vigenère
 function cifraVigenere(str, key, decrypt) {
   if (!key || !/^[a-zA-Z]+$/.test(key)) {
-     // Trocado alert por return
     return "A chave para Vigenère deve ser uma palavra contendo apenas letras.";
   }
 
@@ -58,47 +56,87 @@ function cifraVigenere(str, key, decrypt) {
     .join("");
 }
 
-// 3. One-Time Pad (OTP) - VERSÃO CORRIGIDA
+// 3. One-Time Pad (OTP)
 function oneTimePad(messageDecimalStr, keyDecimalStr) {
-    // Validação para garantir que a entrada contém apenas dígitos
     if (!/^\d+$/.test(messageDecimalStr) || !/^\d+$/.test(keyDecimalStr)) {
-        // Trocado alert por return
         return "A mensagem e a chave para OTP devem ser números decimais.";
     }
-
-    // Converte os números decimais (em formato string) para binário (em formato string)
-    let messageBinary = parseInt(messageDecimalStr, 10).toString(2);
-    let keyBinary = parseInt(keyDecimalStr, 10).toString(2);
-
-    // Encontra o comprimento máximo entre as duas strings binárias
-    const maxLength = Math.max(messageBinary.length, keyBinary.length);
-
-    // Garante que ambas as strings binárias tenham o mesmo comprimento,
-    // adicionando zeros à esquerda na menor. Isso é crucial para o XOR.
-    messageBinary = messageBinary.padStart(maxLength, '0');
-    keyBinary = keyBinary.padStart(maxLength, '0');
-
-    let resultBinary = '';
-    // Itera por cada bit das strings
-    for (let i = 0; i < maxLength; i++) {
-        // Realiza a operação XOR bit a bit
-        if (messageBinary[i] === keyBinary[i]) {
-            resultBinary += '0';
-        } else {
-            resultBinary += '1';
-        }
+    try {
+        const messageBigInt = BigInt(messageDecimalStr);
+        const keyBigInt = BigInt(keyDecimalStr);
+        const result = messageBigInt ^ keyBigInt;
+        return result.toString();
+    } catch (e) {
+        return "Erro ao converter os números para o OTP. Verifique se são decimais válidos."
     }
-
-    // Converte a string binária resultante de volta para um número decimal
-    const resultDecimal = parseInt(resultBinary, 2);
-
-    // Retorna o resultado decimal como uma string
-    return resultDecimal.toString();
 }
 
-// Exporta as funções para serem usadas no server.js
+// 4. Cifra de Hill (A FUNÇÃO QUE FALTAVA)
+function cifraHill(message, key, decrypt) {
+    const mod = (n, m) => ((n % m) + m) % m;
+
+    const findModInverse = (n, modulus) => {
+        n = mod(n, modulus);
+        for (let x = 1; x < modulus; x++) {
+            if (mod(n * x, modulus) == 1) return x;
+        }
+        return null;
+    };
+
+    let text = message.toUpperCase().replace(/[^A-Z]/g, '');
+    if (text.length % 2 !== 0) {
+        text += 'X';
+    }
+
+    const keyUpper = key.toUpperCase().replace(/[^A-Z]/g, '');
+    if (keyUpper.length !== 4) {
+        return "A chave para a Cifra de Hill (2x2) deve ter 4 letras.";
+    }
+    const k = [
+        [keyUpper.charCodeAt(0) - 65, keyUpper.charCodeAt(1) - 65],
+        [keyUpper.charCodeAt(2) - 65, keyUpper.charCodeAt(3) - 65]
+    ];
+
+    let matrix = k;
+
+    if (decrypt) {
+        const det = mod(k[0][0] * k[1][1] - k[0][1] * k[1][0], 26);
+        const detInverse = findModInverse(det, 26);
+
+        if (detInverse === null) {
+            return "A chave não é invertível (determinante não tem inverso modular 26). Não é possível decriptografar.";
+        }
+
+        const adjugate = [
+            [k[1][1], mod(-k[0][1], 26)],
+            [mod(-k[1][0], 26), k[0][0]]
+        ];
+
+        matrix = [
+            [mod(adjugate[0][0] * detInverse, 26), mod(adjugate[0][1] * detInverse, 26)],
+            [mod(adjugate[1][0] * detInverse, 26), mod(adjugate[1][1] * detInverse, 26)]
+        ];
+    }
+    
+    let result = '';
+    for (let i = 0; i < text.length; i += 2) {
+        const p1 = text.charCodeAt(i) - 65;
+        const p2 = text.charCodeAt(i + 1) - 65;
+        
+        const c1 = mod(matrix[0][0] * p1 + matrix[0][1] * p2, 26);
+        const c2 = mod(matrix[1][0] * p1 + matrix[1][1] * p2, 26);
+        
+        result += String.fromCharCode(c1 + 65);
+        result += String.fromCharCode(c2 + 65);
+    }
+    
+    return result;
+}
+
+// Exporta TODAS as funções
 module.exports = {
   cifraCesar,
   cifraVigenere,
   oneTimePad,
+  cifraHill // A EXPORTAÇÃO QUE FALTAVA
 };
