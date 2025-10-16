@@ -1,4 +1,3 @@
-// 1. Cifra de César
 function cifraCesar(str, key, decrypt) {
   const k = parseInt(key, 10);
   if (isNaN(k)) {
@@ -138,5 +137,5 @@ module.exports = {
   cifraCesar,
   cifraVigenere,
   oneTimePad,
-  cifraHill // A EXPORTAÇÃO QUE FALTAVA
+  cifraHill
 };
