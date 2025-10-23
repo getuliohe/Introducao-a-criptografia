@@ -17,10 +17,10 @@
 
         <label for="cipher">Algoritmo:</label>
         <select id="cipher" name="cipher">
-            <option value="cesar" <%= (cipher === 'cesar') ? 'selected' : '' %>>Cifra de César</option>
+            <option value="cesar"    <%= (cipher === 'cesar') ? 'selected' : '' %>>Cifra de César</option>
             <option value="vigenere" <%= (cipher === 'vigenere') ? 'selected' : '' %>>Cifra de Vigenère</option>
-            <option value="otp" <%= (cipher === 'otp') ? 'selected' : '' %>>One-Time Pad (OTP)</option>
-            <option value="hill" <%= (cipher === 'hill') ? 'selected' : '' %>>Cifra de Hill</option>
+            <option value="otp"      <%= (cipher === 'otp') ? 'selected' : '' %>>One-Time Pad (OTP)</option>
+            <option value="hill"     <%= (cipher === 'hill') ? 'selected' : '' %>>Cifra de Hill</option>
         </select>
 
         <button type="submit" name="action" value="encrypt">Criptografar</button>
@@ -28,7 +28,48 @@
     </form>
 
     <h2>Resultado:</h2>
-    <p id="result"><%= result %></p>
+    
+    <div id="result-container">
+        <% if (hillResult) { %>
+            <h3 class="hill-title">Resultado Final: <%= hillResult.resultText %></h3>
+            
+            <h4 class="hill-subtitle">Matriz Chave Utilizada:</h4>
+            <div class="hill-step">
+                <div class="matrix">
+                    <span><%= hillResult.keyMatrix[0][0] %></span><span><%= hillResult.keyMatrix[0][1] %></span>
+                    <span><%= hillResult.keyMatrix[1][0] %></span><span><%= hillResult.keyMatrix[1][1] %></span>
+                </div>
+            </div>
+
+            <h4 class="hill-subtitle">Passo a Passo:</h4>
+            <% hillResult.steps.forEach(step => { %>
+                <div class="hill-step">
+                    <div class="matrix">
+                        <span><%= hillResult.keyMatrix[0][0] %></span><span><%= hillResult.keyMatrix[0][1] %></span>
+                        <span><%= hillResult.keyMatrix[1][0] %></span><span><%= hillResult.keyMatrix[1][1] %></span>
+                    </div>
+                    <span class="math-op">x</span>
+                    <div class="vector">
+                        <span><%= step.inputVector[0] %></span>
+                        <span><%= step.inputVector[1] %></span>
+                    </div>
+                    <span class="math-op">=</span>
+                    <div class="vector">
+                        <span><%= step.outputVector[0] %></span>
+                        <span><%= step.outputVector[1] %></span>
+                    </div>
+                    <span class="math-op">→</span>
+                    <div class="text-block">
+                        <span><%= step.inputBlock %></span>
+                        <span><%= step.outputBlock %></span>
+                    </div>
+                </div>
+            <% }); %>
+
+        <% } else { %>
+            <p id="result-text"><%= resultString %></p>
+        <% } %>
+    </div>
     
 </body>
 </html>

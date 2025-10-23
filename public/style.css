@@ -1,3 +1,6 @@
+/* --- Importar Fonte --- */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
 /* --- Variáveis de Cor --- */
 :root {
   --cor-fundo-escuro: #0a192f;
@@ -8,6 +11,33 @@
   --cor-verde-neon-hover: rgba(100, 255, 218, 0.1);
 }
 
+/* --- Keyframes para Animações --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--cor-verde-neon), 0 0 12px var(--cor-verde-neon);
+  }
+  50% {
+    text-shadow: 0 0 5px var(--cor-verde-neon), 0 0 8px var(--cor-verde-neon);
+  }
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* --- Estilos Globais --- */
 * {
   box-sizing: border-box;
@@ -16,8 +46,8 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
+  /* Fonte nova aplicada */
+  font-family: 'Share Tech Mono', monospace;
   background-color: var(--cor-fundo-escuro);
   color: var(--cor-texto-claro);
   display: flex;
@@ -26,6 +56,8 @@ body {
   justify-content: center;
   min-height: 100vh;
   padding: 20px;
+  /* Animação de fade-in na página */
+  animation: fadeIn 1s ease-in-out;
 }
 
 h1,
@@ -34,10 +66,13 @@ h2 {
   font-weight: 400;
   text-align: center;
   margin-bottom: 25px;
+  letter-spacing: 1px;
 }
 
 h1 {
   font-size: 2.5rem;
+  /* Animação de brilho aplicada */
+  animation: glow 3s ease-in-out infinite;
 }
 
 h2 {
@@ -54,6 +89,14 @@ form {
   width: 100%;
   max-width: 600px;
   border: 1px solid rgba(100, 255, 218, 0.2);
+  /* Transição suave */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Efeito de hover no formulário */
+form:hover {
+  box-shadow: 0 4px 20px rgba(100, 255, 218, 0.2);
+  border-color: var(--cor-verde-neon);
 }
 
 /* --- Estilos dos Inputs --- */
@@ -77,6 +120,9 @@ select {
   background-color: var(--cor-fundo-escuro);
   color: var(--cor-texto-claro);
   font-size: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  /* Transição suave para foco */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type="text"]:focus,
@@ -84,7 +130,7 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--cor-verde-neon);
-  box-shadow: 0 0 5px rgba(100, 255, 218, 0.5);
+  box-shadow: 0 0 8px rgba(100, 255, 218, 0.5);
 }
 
 textarea {
@@ -105,6 +151,7 @@ button {
   transition: all 0.3s ease;
   margin-right: 10px;
   margin-top: 10px;
+  font-family: 'Share Tech Mono', monospace;
 }
 
 button:hover {
@@ -113,11 +160,13 @@ button:hover {
 }
 
 button:active {
-  transform: translateY(1px);
+  /* Efeito de "pressionar" */
+  transform: translateY(2px);
+  box-shadow: 0 0 5px rgba(100, 255, 218, 0.3);
 }
 
 /* --- Card de Resultado --- */
-#result {
+#result-container {
   background-color: var(--cor-card-escuro);
   padding: 25px;
   border-radius: 8px;
@@ -125,11 +174,111 @@ button:active {
   width: 100%;
   max-width: 600px;
   min-height: 80px;
+  border: 1px dashed var(--cor-texto-secundario);
+  /* Animação de "aparecer" */
+  animation: slideUpFade 0.5s ease-out;
+}
+
+#result-text {
   font-size: 1.1rem;
   color: var(--cor-texto-claro);
-  border: 1px dashed var(--cor-texto-secundario);
-  word-wrap: break-word; /* Garante que o texto quebre */
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
+
+/* --- Estilos Específicos da Cifra de Hill --- */
+.hill-title {
+  color: var(--cor-verde-neon);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hill-subtitle {
+  color: var(--cor-texto-secundario);
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--cor-texto-secundario);
+  padding-bottom: 5px;
+}
+
+.hill-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 4px;
+  /* Transição suave para hover */
+  transition: background-color 0.3s ease;
+}
+
+/* Efeito de hover no passo-a-passo */
+.hill-step:hover {
+  background-color: rgba(100, 255, 218, 0.03);
+}
+
+.matrix, .vector {
+  border: 2px solid var(--cor-texto-secundario);
+  padding: 5px;
+  background-color: var(--cor-fundo-escuro);
+  border-radius: 4px;
+  /* Transição suave */
+  transition: all 0.3s ease;
+}
+
+/* Efeito de hover na matriz/vetor */
+.matrix:hover, .vector:hover {
+  border-color: var(--cor-verde-neon);
+  box-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
+  transform: scale(1.02);
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.matrix span {
+  text-align: center;
+  padding: 5px;
+}
+
+.vector {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.vector span {
+  text-align: center;
+  padding: 5px;
+}
+
+.math-op {
+  font-size: 1.5rem;
+  color: var(--cor-verde-neon);
+}
+
+.text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1rem;
+  color: var(--cor-texto-secundario);
+}
+.text-block span:first-child {
+  color: var(--cor-texto-claro);
+  font-weight: bold;
+}
+.text-block span:last-child {
+  color: var(--cor-verde-neon);
+  font-weight: bold;
+}
+
 
 /* --- Responsividade --- */
 @media (max-width: 650px) {
@@ -143,5 +292,12 @@ button:active {
     /* Faz os botões ocuparem a largura toda e se empilharem */
     width: 100%;
     margin-right: 0;
+  }
+  .hill-step {
+    font-size: 1rem;
+    gap: 10px;
+  }
+  .math-op {
+    font-size: 1.2rem;
   }
 }
